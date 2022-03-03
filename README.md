@@ -1,7 +1,3 @@
-# Machine Learning: Fibre Classification & Regression
-
-
-
 ## Project Description
 
 
