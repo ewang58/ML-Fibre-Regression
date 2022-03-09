@@ -1,26 +1,26 @@
 ## Project Overview
 
-- In this project, we want to find out which machine learning regression model provides the most accuracy based on the given dataset.
-- Based on the results, MLP NN (Multi-Layer Perceptron Neural Network) gives the best accuracy and a short training-time due to the structure of the model.
+- In this project, we want to determine which machine learning regression model provides the most accurate prediction based on the given dataset.
+- Based on the results, MLP NN (Multi-Layer Perceptron Neural Network) gives the best accuracy and the shortest training-time due to the structure of the model.
 - The regression models that are used in this project include: Elastic Net, Lasso (L1), Multi-Layer Perceptron Neural Network(MLPNN), Ridge (L2), Support Vector Regression (SVR)
 - [Link to this Project on Github](https://github.com/ewang58/Machine-Learning-Fibre-Classification-Regression)
 
 ## Description
 
-- In this project, a set of training data (~80%) set and testing data set(~20%) are given. Each data contains a 2-dimension label which denotes the cotton content and the polyester content in the fabric respectively. 
-- We will build and train 5 different regression models to see which models gives the best performance in terms of prediction error and efficiency.
-- We will use mean absolute error (MAE) as our benchmark to compare each model.
+- In this project, a set of training data (~80%) set and testing data (~20%) are given. Each data contains a 2-dimensional label which denoting the cotton and the polyester content in the fabric respectively. 
+- We will build and train 5 different regression models to determine which models gives the best performance in terms of prediction error and efficiency.
+- We will use the mean absolute error (MAE) as our benchmark to compare each model.
 
 ## Python Libraries
 
-I have Anaconda Python distribution installed on my system which comes with most of the standard Python libraries that I need for this project. Some libraries used in this project are:
+I have installed Anaconda Python distribution installed on my system. This is included with most standard Python libraries required for this project. Some libraries used in this project are:
 
-- Pandas: it provides necessary tools for data manipulation, storage and analysis tasks.
-- Numpy: it provides a simple numerical array structure and functions
-- Seaborn: it provides the necessary plotting functions for Pandas data frames.
-- Matplotlib: it is the basic plotting tools in Python for data presentation.
-- Scikit-learn: it provides simple data preprocessing tools.
-- Pytorch: it provides fast and flexible tools for training and testing the given datasets.
+- Pandas: provides necessary tools for data manipulation, storage and analysis tasks.
+- Numpy: provides a simple numerical array structure and functions
+- Seaborn:provides the necessary plotting functions for Pandas data frames.
+- Matplotlib: is the basic plotting tools in Python for data presentation.
+- Scikit-learn: provides simple data preprocessing tools.
+- Pytorch: provides fast and flexible tools for training and testing the given datasets.
 
 
 
@@ -30,7 +30,7 @@ The mean absolute error (MAE) is "a measure of errors between paired observation
 $$
 MAE = \frac {\sum^n_{i=1}|y_i-x_i|}{n}=\frac{\sum^n_{i=1}|e_i|}{n}
 $$
-In python, we can write a function as such:
+In python, this can be written as a function, such as:
 
 ````python
 class Metrics:
@@ -42,11 +42,11 @@ class Metrics:
 
 ## Exploratory data analysis
 
-In this project, we are given a set of training and testing data in a 80% and 20% split to predict the amount of polyester in the material. Dataset has 2701 records and 1307 features so it's a relatively big dataset. Therefore we want to start with understanding and cleaning the data first. Here I just want to share a few techniques that I use for these. 
+In this project, a set of training and testing data in a 80% and 20% split are provided to predict the amount of polyester in the material. The dataset is relatively big with 2701 records and 1307 features. Therefore, we need to start with understanding and cleaning the data first. In the following steps, I will share a few techniques to help with understanding and cleaning the data. 
 
 ### Null Values
 
-We have to make sure the quality of our data and there is no empty values (null values). There are several ways that we can conduct this
+We have to check there is no empty values (null values) to ensure a good quality of data. There are several ways that we can conduct this
 
 #### Visualization method
 
@@ -64,7 +64,7 @@ sns.heatmap(df[cols].isnull(), cmap=sns.color_palette(colours))
 
 #### Mechanical method
 
-However a drawback of this method is that it can take quite a bit of time in a large dataset like this. But mechanically we can also calculate for missing data by running the code on top. And if the result comes back with a positive integer that means we have a missing value. Hence We can run the code below to see the missing data percentage and its location. 
+However a drawback of this method is that it can take quite a bit of time in a large dataset like this. But mechanically we can also calculate for missing data by running the code on top. And if the result comes back with a positive integer that means we have a missing value. Hence we can run the code below to see the missing data percentage and its location. 
 
 ```python
 # check to see if any null value (missing value) is present or not
@@ -85,7 +85,7 @@ for col in df.columns:
 
 ### Understanding MLP
 
-A multi-layer perceptron neural network (MLP NN) is a combination of networks composed of multiple layers of "vanilla" neural networks (the perceptrons). An MLP consists of an input layer, an output layers and at least one hidden layer. 
+A multi-layer perceptron neural network (MLP NN) is a combination of networks composed of multiple layers of "vanilla" neural networks (the perceptrons). An MLP consists of an input layer, an output layer and at least one hidden layer. 
 
 ![MLP structure](Image/MLP structure.png)
 
@@ -96,7 +96,7 @@ $$
 
 ### Set up
 
-So, in this regression, the structure of our MLP has an input layer (1307 neurons), two hidden layers(128 neurons and 64 neurons respectively) and an output layer (2 neurons). The regression has a learning rate of 0.0001 with a max epochs of 100.
+In this regression, the structure of our MLP has an input layer ( of 1307 neurons), two hidden layers( of 128 neurons and 64 neurons respectively) and an output layer (of 2 neurons). The regression has a learning rate of 0.0001 with a max epochs of 100.
 
 ```python
 # Define our MLP-NN.
@@ -118,23 +118,23 @@ class MLPNN(nn.Module):
 
 ### Loss Function
 
-We can then set up a loss function using mean squared error (MSE) which is the most commonly used loss function:
+Next, we can then set up a loss function using mean squared error (MSE) which is the most commonly used loss function:
 
 ```python
 criterion = nn.MSELoss()
 ```
 
-### optimizer
+### Optimizer
 
-We can also set up an optimizer using ``torch.optim`` and our learning rate:
+We can also set up our learning rate and an optimizer using ``torch.optim``:
 
 ````python
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 ````
 
-### train the model
+### Train the model
 
-We can then write our function that trains the model and keep in the mind the run time to help us bette analysis the efficiency:
+We can then write our function that trains the model, and keeping in the mind the run time to help us better analyze the efficiency:
 
 ````python
 start = datetime.datetime.now()
@@ -158,9 +158,9 @@ training_time = end - start
 print(f"Training time: {training_time}")
 ````
 
-### result
+### Result
 
-After running the model and perform the prediction, we can calculate the mean absolute error metric which comes back at **MAE: 0.02537**
+After running the model and performing the prediction, we can calculate the mean absolute error metric which comes back at **MAE: 0.02537**
 
 
 
@@ -168,7 +168,7 @@ After running the model and perform the prediction, we can calculate the mean ab
 
 ### Understanding the SVR
 
-A support vector regression has a similar concept as a support vector machine which uses a hyperplane to separate between two classes. 
+A support vector regression has a similar concept as a support vector machine which uses a hyperplane to separate between the two classes. 
 
 
 
@@ -180,7 +180,7 @@ The quickest way to separate them in a 2-dimensional space is through a straight
 
 ![SVR 2](Image/SVR 2.png)
 
-It is what SVM essentially does. It will also work on a more difficult circumstances:
+It is what SVM essentially does. It will also work in a more difficult circumstances:
 
 ![SVR 3](Image/SVR 3.png)
 
@@ -188,7 +188,7 @@ We can see that the easiest way to separate the two datasets is by drawing a cir
 
 ![SVR 4](Image/SVR 4.png)
 
-Instead, we can increase the dimensionality by adding a z axis, then we are able to apply an hyperplane in between the sets:
+Instead, we can increase the dimensionality by adding a z axis, thereby, we are able to apply an hyperplane in between the two sets:
 
 ![Screen Shot 2022-03-08 at 11.01.47 PM](Image/SVR 5.png)
 
@@ -249,7 +249,7 @@ The MAE from the 3 SVRs are relatively close to each other despite using a diffe
 
 ### Basic Understanding
 
-Lasso or is a regularization that is designed to enhance prediction accuracy. It penalize the model when it is overfitting. The basic mathematical form is shown blow:
+Lasso regularization is designed to enhance prediction accuracy. It penalize the model when it is overfitting. The basic mathematical form is shown blow:
 $$
 min\ \frac1{2n} ||wX-y||^2_2+\alpha||w||_1
 $$
@@ -276,14 +276,14 @@ The MAE score on L1 is **0.13249**.
 
 ### Basic Understanding
 
-Similar to Lasso, ridge is also a regularization that can help improving the prediction accuracy. It is more efficiently at preventing models from under-fitting. The basic mathematical form can be written as below:
+Similar to Lasso, ridge is also a regularization that can help improve the accuracy of the prediction. It is more efficiently at preventing models from under-fitting. The basic mathematical form can be written as below:
 $$
 min\ \frac1{2n} ||wX-y||^2_2+\alpha||w||_2^2
 $$
 
 ### Setup
 
-We can use the ``sklearn`` library to conveniently code this:
+We can use the ``sklearn`` library to conveniently code this as:
 
 ````python
 from sklearn.linear_model import Ridge
@@ -301,14 +301,14 @@ The MAE score on L2 is **0.02395**
 
 ### Basic understanding
 
-The elastic net is also a regularized regression that combines **both L1 and L2**. Therefore this method punishes the model when the regression is either overfitting and/or under-fitting. An estimation of the elastic net in Lagrangian form can written as below:
+The elastic net is also a regularized regression that combines **both L1 and L2**. Therefore this method penalizes the model when the regression is either overfitting and/or under-fitting. An estimation of the elastic net in Lagrangian form can written as below:
 $$
 \hat \beta \equiv argmin(||y-X\beta||^2+\lambda_2||\beta||^2+\lambda_1||\beta||_1)
 $$
 
 ### Setup
 
-There is a function we can use in the ``sklearn`` library. 
+From the ``sklearn`` library, there is a function that can also be used: 
 
 ```python
 from sklearn.linear_model import ElasticNet
@@ -334,9 +334,9 @@ The result of MAE comes back as **0.17037**
 
 
 
-- We can see that MLP out-performs all other regression models with the least MAE while Lasso regression has the worst performs. 
-- MLP shows a better result might be due to the ability to manual tune the number of hidden neurons, layers and iterations until it's optimal.
-- One purposed possibility that causes Lasso to show less efficiency is because Lasso generally creates sparse outputs which directly increase the MAE metrics.
+- We can see that MLP out-performs all other regression models with the least MAE while Lasso regression has the worst performance. 
+- MLP shows a better result might be due to the ability to manually tune the number of hidden neurons, layers and iterations until it reaches its optimal point.
+- One purposed possibility that causes Lasso to show less efficiency might be because Lasso generally creates sparse outputs which directly increases the MAE metrics.
 - You can access the source code [here](https://github.com/ewang58/Machine-Learning-Fibre-Classification-Regression/tree/main/Code)
 
 
