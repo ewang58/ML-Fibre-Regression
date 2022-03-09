@@ -7,7 +7,7 @@
 
 ## Description
 
-- In this project, a set of training data (~80%) set and testing data (~20%) are given. Each data contains a 2-dimensional label which denoting the cotton and the polyester content in the fabric respectively. 
+- In this project, a set of training data (~80%) set and testing data (~20%) are given. Each data contains a 2-dimensional label which denotes the cotton and the polyester content in the fabric respectively. 
 - We will build and train 5 different regression models to determine which models gives the best performance in terms of prediction error and efficiency.
 - We will use the mean absolute error (MAE) as our benchmark to compare each model.
 
